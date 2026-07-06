@@ -3,9 +3,16 @@ import { PageHeader } from '../components/PageHeader'
 import { ContactForm } from '../components/ContactForm'
 
 const DETAILS = [
-  { icon: MapPin, label: '48 Ardent Lane, Bandra West, Mumbai 400050' },
-  { icon: Mail, label: 'studio@navaru.com' },
-  { icon: Phone, label: '+91 98200 00000' },
+  {
+    icon: MapPin,
+    label: '4 - 176C, Amba Road, Kidiyoor, Udupi Taluk & Dist - 576103',
+  },
+  {
+    icon: Mail,
+    label: 'navaruinteriorsolutions@gmail.com',
+    href: 'mailto:navaruinteriorsolutions@gmail.com',
+  },
+  { icon: Phone, label: '+91 99726 76594', href: 'tel:+919972676594' },
 ]
 
 export default function Contact() {
@@ -19,10 +26,19 @@ export default function Contact() {
       <section className="mx-auto max-w-content px-6 py-24 lg:px-12">
         <div className="grid gap-16 lg:grid-cols-[1fr_1.4fr] lg:gap-24">
           <div className="space-y-8">
-            {DETAILS.map(({ icon: Icon, label }) => (
+            {DETAILS.map(({ icon: Icon, label, href }) => (
               <div key={label} className="flex items-start gap-4">
                 <Icon className="mt-0.5 h-5 w-5 shrink-0 text-brass-400" strokeWidth={1.5} />
-                <p className="text-sm font-light leading-relaxed text-ink-700">{label}</p>
+                {href ? (
+                  <a
+                    href={href}
+                    className="text-sm font-light leading-relaxed text-ink-700 transition-colors hover:text-brass-400"
+                  >
+                    {label}
+                  </a>
+                ) : (
+                  <p className="text-sm font-light leading-relaxed text-ink-700">{label}</p>
+                )}
               </div>
             ))}
           </div>

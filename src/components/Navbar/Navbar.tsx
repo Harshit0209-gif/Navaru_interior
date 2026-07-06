@@ -30,16 +30,18 @@ export function Navbar() {
         )}
       >
         <div className="mx-auto flex max-w-content items-center justify-between px-6 lg:px-12">
-          <NavLink
-            to="/"
-            className={cn(
-              'font-light text-xl tracking-tightest transition-colors duration-500',
-              light ? 'text-cream-100' : 'text-ink-900',
-            )}
-          >
-            NAVARU
-            <span className="ml-1 align-top text-[0.5em] font-medium tracking-widest2 text-brass-300">
-              INTERIOR
+          <NavLink to="/" className="flex items-center gap-3">
+            <img src="/logo-mark.png" alt="Navaru Interior Solution" className="h-11 w-auto" />
+            <span
+              className={cn(
+                'font-light text-xl tracking-tightest transition-colors duration-500',
+                light ? 'text-cream-100' : 'text-ink-900',
+              )}
+            >
+              NAVARU
+              <span className="ml-1 align-top text-[0.5em] font-medium tracking-widest2 text-brass-300">
+                INTERIOR
+              </span>
             </span>
           </NavLink>
 
@@ -91,7 +93,10 @@ export function Navbar() {
             className="fixed inset-0 z-[70] flex flex-col bg-ink-950 px-8 py-8 text-cream-100 md:hidden"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xl font-light tracking-tightest">NAVARU</span>
+              <div className="flex items-center gap-3">
+                <img src="/logo-mark.png" alt="Navaru Interior Solution" className="h-10 w-auto" />
+                <span className="text-xl font-light tracking-tightest">NAVARU</span>
+              </div>
               <button onClick={() => setOpen(false)} aria-label="Close menu">
                 <X strokeWidth={1.5} className="h-7 w-7" />
               </button>

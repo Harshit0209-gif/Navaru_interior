@@ -30,21 +30,21 @@ export function Footer() {
           </AnimatedHeading>
 
           <motion.a
-            href="mailto:studio@navaru.com"
+            href="mailto:navaruinteriorsolutions@gmail.com"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.2 }}
             className="shrink-0 border-b border-brass-300 pb-1 text-sm font-medium uppercase tracking-widest2 text-brass-300 transition-colors hover:text-brass-200"
           >
-            studio@navaru.com
+            navaruinteriorsolutions@gmail.com
           </motion.a>
         </div>
 
         <div className="grid grid-cols-2 gap-10 py-16 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
-            <p className="text-xl font-light tracking-tightest">NAVARU</p>
-            <p className="mt-3 text-sm font-light leading-relaxed text-cream-200/60">
+            <img src="/logo-mark.png" alt="Navaru Interior Solution" className="h-12 w-auto" />
+            <p className="mt-4 text-sm font-light leading-relaxed text-cream-200/60">
               Bespoke interior design studio crafting refined residential and
               commercial spaces.
             </p>
@@ -73,12 +73,18 @@ export function Footer() {
               Studio
             </p>
             <p className="text-sm font-light leading-relaxed text-cream-200/80">
-              48 Ardent Lane
+              4 - 176C, Amba Road
               <br />
-              Bandra West, Mumbai
+              Kidiyoor, Udupi Taluk &amp; Dist
               <br />
-              India 400050
+              Karnataka 576103
             </p>
+            <a
+              href="tel:+919972676594"
+              className="mt-3 block text-sm font-light text-cream-200/80 transition-colors hover:text-brass-300"
+            >
+              +91 99726 76594
+            </a>
           </div>
 
           <div>
