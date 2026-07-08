@@ -10,7 +10,7 @@ type BaseProps = {
 type InputProps = BaseProps &
   Omit<InputHTMLAttributes<HTMLInputElement> & TextareaHTMLAttributes<HTMLTextAreaElement>, 'className'>
 
-export function Input({ label, as = 'input', id, value, onFocus, onBlur, rows, ...rest }: InputProps) {
+export function Input({ label, as = 'input', id, value, onFocus, onBlur, rows, placeholder, ...rest }: InputProps) {
   const generatedId = useId()
   const inputId = id ?? generatedId
   const [focused, setFocused] = useState(false)
@@ -19,6 +19,13 @@ export function Input({ label, as = 'input', id, value, onFocus, onBlur, rows, .
   const alwaysFloats = rest.type === 'date' || rest.type === 'time' || rest.type === 'datetime-local'
   const hasValue = Boolean(value) || alwaysFloats
   const floating = focused || hasValue
+  // A `placeholder` renders inside the field at the exact same spot the
+  // floating label sits when empty/unfocused ("top-6 text-base" below) — if
+  // both are present at once they visually overlap into garbled text. Only
+  // forward the placeholder once the label has floated out of the way via
+  // focus, matching the standard floating-label convention (the hint text
+  // appears once you've focused the field, not before).
+  const visiblePlaceholder = focused ? placeholder : undefined
 
   const fieldClasses =
     'peer w-full border-b border-ink-900/20 bg-transparent pb-3 pt-6 text-base font-light text-ink-900 outline-none transition-colors duration-300 focus:border-brass-400'
@@ -30,6 +37,7 @@ export function Input({ label, as = 'input', id, value, onFocus, onBlur, rows, .
           id={inputId}
           rows={rows ?? 4}
           value={value}
+          placeholder={visiblePlaceholder}
           onFocus={(e) => {
             setFocused(true)
             onFocus?.(e)
@@ -45,6 +53,7 @@ export function Input({ label, as = 'input', id, value, onFocus, onBlur, rows, .
         <input
           id={inputId}
           value={value}
+          placeholder={visiblePlaceholder}
           onFocus={(e) => {
             setFocused(true)
             onFocus?.(e)

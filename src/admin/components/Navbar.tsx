@@ -100,10 +100,10 @@ export function Navbar({ onOpenDrawer }: NavbarProps) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.98 }}
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute right-0 mt-3 w-80 border border-ink-900/10 bg-cream-50 shadow-xl"
+                className="fixed inset-x-4 top-16 z-50 max-h-[70vh] overflow-y-auto border border-ink-900/10 bg-cream-50 shadow-xl sm:absolute sm:inset-x-auto sm:right-0 sm:top-auto sm:mt-3 sm:w-80"
                 role="menu"
               >
-                <p className="border-b border-ink-900/10 px-4 py-3 text-xs font-medium uppercase tracking-widest2 text-ink-700/60">
+                <p className="sticky top-0 border-b border-ink-900/10 bg-cream-50 px-4 py-3 text-xs font-medium uppercase tracking-widest2 text-ink-700/60">
                   Notifications
                 </p>
                 {notifications.length === 0 ? (
@@ -170,7 +170,7 @@ export function Navbar({ onOpenDrawer }: NavbarProps) {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -8, scale: 0.98 }}
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute right-0 mt-3 w-48 border border-ink-900/10 bg-cream-50 shadow-xl"
+                className="absolute right-0 z-50 mt-3 w-[min(12rem,calc(100vw-2rem))] border border-ink-900/10 bg-cream-50 shadow-xl"
                 role="menu"
               >
                 <Link
