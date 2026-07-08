@@ -1,12 +1,20 @@
-import { useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Suspense, useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { X } from 'lucide-react'
+import { Loader2, X } from 'lucide-react'
 import { Sidebar } from '../components/Sidebar'
 import { Navbar } from '../components/Navbar'
 import { useAdminTheme } from '../hooks/useAdminTheme'
 import { useFocusTrap } from '../../hooks/useFocusTrap'
 import { cn } from '../../utils/cn'
+
+function PageFallback() {
+  return (
+    <div className="flex justify-center py-24">
+      <Loader2 className="h-6 w-6 animate-spin text-ink-700/40" strokeWidth={2} />
+    </div>
+  )
+}
 
 const SIDEBAR_WIDTH = 'w-64'
 
@@ -14,6 +22,19 @@ export function DashboardLayout() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const { theme } = useAdminTheme()
   const drawerRef = useFocusTrap<HTMLDivElement>(isDrawerOpen)
+  const location = useLocation()
+
+  // Belt-and-suspenders close, independent of the nav links' own onClick.
+  // DashboardLayout sits inside the same <Suspense> boundary as the lazy-
+  // loaded route chunks (see App.tsx) — navigating to a not-yet-visited
+  // admin page suspends that render, which can drop the onClick's
+  // setIsDrawerOpen(false) update before it commits, leaving the drawer
+  // stuck open. Reacting to the route actually changing (rather than the
+  // click event) means the drawer closes once navigation truly lands,
+  // regardless of any Suspense timing in between.
+  useEffect(() => {
+    setIsDrawerOpen(false)
+  }, [location.pathname])
 
   useEffect(() => {
     if (!isDrawerOpen) return
@@ -86,7 +107,9 @@ export function DashboardLayout() {
         <div className="min-h-screen bg-cream-100">
           <Navbar onOpenDrawer={() => setIsDrawerOpen(true)} />
           <main id="main-content" className="px-4 py-8 sm:px-6 lg:px-8">
-            <Outlet />
+            <Suspense fallback={<PageFallback />}>
+              <Outlet />
+            </Suspense>
           </main>
         </div>
       </div>

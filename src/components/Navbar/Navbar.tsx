@@ -26,6 +26,15 @@ export function Navbar() {
   const { logo_url: logoUrl, company_name: companyName } = useSiteSettings()
   const drawerRef = useFocusTrap<HTMLDivElement>(open, { initialFocus: 'container' })
 
+  // Belt-and-suspenders close, independent of each NavLink's own onClick —
+  // see the matching comment in admin/layouts/DashboardLayout.tsx for why
+  // (Suspense from lazy-loaded routes can drop the onClick's setOpen(false)
+  // before it commits). Reacting to the route actually changing closes the
+  // menu once navigation truly lands, regardless of that timing.
+  useEffect(() => {
+    setOpen(false)
+  }, [pathname])
+
   useEffect(() => {
     if (!open) return
     const onKey = (e: KeyboardEvent) => {
