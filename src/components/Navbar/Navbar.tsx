@@ -24,7 +24,7 @@ export function Navbar() {
   const light = pathname === '/' && !scrolled
   const { open: openBooking } = useBookingModal()
   const { logo_url: logoUrl, company_name: companyName } = useSiteSettings()
-  const drawerRef = useFocusTrap<HTMLDivElement>(open)
+  const drawerRef = useFocusTrap<HTMLDivElement>(open, { initialFocus: 'container' })
 
   useEffect(() => {
     if (!open) return
@@ -100,11 +100,13 @@ export function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Site navigation"
+            tabIndex={-1}
+            onClick={() => setOpen(false)}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
-            className="fixed inset-0 z-[70] flex flex-col bg-ink-950 px-8 py-8 text-cream-100 md:hidden"
+            className="fixed inset-0 z-[70] flex flex-col bg-ink-950 px-8 py-8 text-cream-100 outline-none md:hidden"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

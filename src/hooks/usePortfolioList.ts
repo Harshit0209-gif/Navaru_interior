@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchPortfolioProjects } from '../services/portfolioService'
+import { getErrorMessage } from '../utils/errors'
 import type { PortfolioFilters, PortfolioProject } from '../types/portfolio'
 
 export function usePortfolioList(filters: PortfolioFilters) {
@@ -23,8 +24,10 @@ export function usePortfolioList(filters: PortfolioFilters) {
         setTotal(result.total)
         setHasMore(result.hasMore)
       })
-      .catch(() => {
-        if (!cancelled) setError('Could not load the portfolio right now. Please try again shortly.')
+      .catch((err) => {
+        if (!cancelled) {
+          setError(getErrorMessage(err, 'Could not load the portfolio right now. Please try again shortly.'))
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false)

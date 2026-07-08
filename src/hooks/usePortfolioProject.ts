@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchProjectBySlug, fetchRelatedProjects } from '../services/portfolioService'
+import { getErrorMessage } from '../utils/errors'
 import type { PortfolioProject, PortfolioProjectWithGallery } from '../types/portfolio'
 
 export function usePortfolioProject(slug: string | undefined) {
@@ -27,8 +28,10 @@ export function usePortfolioProject(slug: string | undefined) {
         const relatedProjects = await fetchRelatedProjects(result.id, result.category_id)
         if (!cancelled) setRelated(relatedProjects)
       })
-      .catch(() => {
-        if (!cancelled) setError('Could not load this project right now. Please try again shortly.')
+      .catch((err) => {
+        if (!cancelled) {
+          setError(getErrorMessage(err, 'Could not load this project right now. Please try again shortly.'))
+        }
       })
       .finally(() => {
         if (!cancelled) setLoading(false)
