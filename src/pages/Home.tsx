@@ -8,6 +8,10 @@ import { ProjectCard } from '../components/ProjectCard'
 import { TestimonialCard } from '../components/TestimonialCard'
 import { Counter } from '../components/Counter'
 import { Button } from '../components/Button'
+import { Skeleton } from '../components/Skeleton'
+import { usePageMeta } from '../hooks/usePageMeta'
+import { fetchFeaturedProjects } from '../services/portfolioService'
+import type { PortfolioProject } from '../types/portfolio'
 
 const SERVICES = [
   {
@@ -42,14 +46,11 @@ const SERVICES = [
   },
 ]
 
-const PROJECTS = [
-  { title: 'The Ardent Residence', category: 'Residential', photoId: '1616594039964-ae9021a400a0', span: 'sm:row-span-2' },
-  { title: 'Marlowe Rooftop Lounge', category: 'Hospitality', photoId: '1517248135467-4c7edcad34c4', span: '' },
-  { title: 'Casa Ferro', category: 'Residential', photoId: '1600210492486-724fe5c67fb0', span: '' },
-  { title: 'Thornbury Offices', category: 'Commercial', photoId: '1497366216548-37526070297c', span: 'sm:row-span-2' },
-  { title: 'The Linden Suite', category: 'Residential', photoId: '1616486338812-3dadae4b4ace', span: '' },
-  { title: 'Almyra Boutique', category: 'Retail', photoId: '1441984904996-e0b6ba687e04', span: '' },
-]
+// First and fourth cards span two rows, creating the mosaic layout below —
+// preserved regardless of which projects are marked featured in the DB.
+function spanForIndex(i: number) {
+  return i === 0 || i === 3 ? 'sm:row-span-2' : ''
+}
 
 const STATS = [
   { value: 14, suffix: '+', label: 'Years of Practice' },
@@ -80,13 +81,37 @@ const TESTIMONIALS = [
 ]
 
 export default function Home() {
+  usePageMeta(
+    'Luxury Interior Design Studio',
+    'Navaru Interior Solution designs bespoke residential and commercial interiors grounded in proportion, natural materials, and quiet luxury.',
+  )
   const [active, setActive] = useState(0)
+  const [featuredProjects, setFeaturedProjects] = useState<PortfolioProject[]>([])
+  const [projectsLoading, setProjectsLoading] = useState(true)
 
   useEffect(() => {
     const id = setInterval(() => {
       setActive((i) => (i + 1) % TESTIMONIALS.length)
     }, 6000)
     return () => clearInterval(id)
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
+    fetchFeaturedProjects(6)
+      .then((projects) => {
+        if (!cancelled) setFeaturedProjects(projects)
+      })
+      .catch(() => {
+        // Home page degrades gracefully — the section just shows nothing
+        // rather than surfacing an error on the primary landing page.
+      })
+      .finally(() => {
+        if (!cancelled) setProjectsLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   return (
@@ -147,16 +172,22 @@ export default function Home() {
         </div>
 
         <div className="grid auto-rows-[280px] gap-4 sm:grid-cols-3">
-          {PROJECTS.map((project, i) => (
-            <ProjectCard
-              key={project.title}
-              index={i}
-              title={project.title}
-              category={project.category}
-              image={`https://images.unsplash.com/photo-${project.photoId}?auto=format&fit=crop&w=1000&h=1250&q=80`}
-              className={project.span}
-            />
-          ))}
+          {projectsLoading
+            ? Array.from({ length: 6 }).map((_, i) => (
+                <Skeleton key={i} className={spanForIndex(i)} />
+              ))
+            : featuredProjects.map((project, i) => (
+                <ProjectCard
+                  key={project.id}
+                  index={i}
+                  id={project.id}
+                  slug={project.slug}
+                  title={project.title}
+                  category={project.category?.name ?? ''}
+                  image={project.cover_image_url}
+                  className={spanForIndex(i)}
+                />
+              ))}
         </div>
       </section>
 

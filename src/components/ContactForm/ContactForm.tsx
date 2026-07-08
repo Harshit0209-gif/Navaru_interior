@@ -4,42 +4,48 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CheckCircle2 } from 'lucide-react'
 import { Input } from '../Input'
 import { Button } from '../Button'
+import { FileUpload } from '../FileUpload'
+import { useSubmitContact } from '../../hooks/useSubmitContact'
+import { isValidEmail, isValidPhone } from '../../utils/validators'
+import { EMPTY_CONTACT_FORM } from '../../types/contact'
+import type { ContactFormErrors, ContactFormValues } from '../../types/contact'
 
-type FormState = {
-  name: string
-  email: string
-  budget: string
-  message: string
-}
-
-const EMPTY_STATE: FormState = { name: '', email: '', budget: '', message: '' }
-
-function isValidEmail(value: string) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+function validate(values: ContactFormValues): ContactFormErrors {
+  const errors: ContactFormErrors = {}
+  if (!values.name.trim()) errors.name = 'Please tell us your name.'
+  if (!isValidEmail(values.email)) errors.email = 'Enter a valid email address.'
+  if (values.phone && !isValidPhone(values.phone)) errors.phone = 'Enter a valid phone number.'
+  if (!values.message.trim()) errors.message = 'Tell us a little about the project.'
+  return errors
 }
 
 export function ContactForm() {
-  const [values, setValues] = useState<FormState>(EMPTY_STATE)
-  const [errors, setErrors] = useState<Partial<FormState>>({})
+  const { submit, isSubmitting, uploadProgress, reset } = useSubmitContact()
+  const [values, setValues] = useState<ContactFormValues>(EMPTY_CONTACT_FORM)
+  const [errors, setErrors] = useState<ContactFormErrors>({})
+  const [attachment, setAttachment] = useState<File | null>(null)
   const [submitted, setSubmitted] = useState(false)
 
-  function update<K extends keyof FormState>(key: K, value: string) {
+  function update<K extends keyof ContactFormValues>(key: K, value: string) {
     setValues((prev) => ({ ...prev, [key]: value }))
   }
 
-  function validate(): boolean {
-    const next: Partial<FormState> = {}
-    if (!values.name.trim()) next.name = 'Please tell us your name.'
-    if (!isValidEmail(values.email)) next.email = 'Enter a valid email address.'
-    if (!values.message.trim()) next.message = 'Tell us a little about the project.'
-    setErrors(next)
-    return Object.keys(next).length === 0
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    const nextErrors = validate(values)
+    setErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) return
+
+    const ok = await submit(values, attachment)
+    if (ok) setSubmitted(true)
   }
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    if (!validate()) return
-    setSubmitted(true)
+  function handleReset() {
+    setValues(EMPTY_CONTACT_FORM)
+    setErrors({})
+    setAttachment(null)
+    setSubmitted(false)
+    reset()
   }
 
   if (submitted) {
@@ -59,10 +65,7 @@ export function ContactForm() {
           schedule your consultation.
         </p>
         <button
-          onClick={() => {
-            setValues(EMPTY_STATE)
-            setSubmitted(false)
-          }}
+          onClick={handleReset}
           className="text-xs font-medium uppercase tracking-widest2 text-brass-400 underline underline-offset-4"
         >
           Send another message
@@ -73,21 +76,25 @@ export function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-8">
+      {/* Honeypot — hidden from real users via CSS, catches naive bots */}
+      <div className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={values.website}
+          onChange={(e) => update('website', e.target.value)}
+        />
+      </div>
+
       <div className="grid gap-8 sm:grid-cols-2">
         <div>
-          <Input
-            label="Full Name"
-            value={values.name}
-            onChange={(e) => update('name', e.target.value)}
-          />
+          <Input label="Full Name" value={values.name} onChange={(e) => update('name', e.target.value)} />
           <AnimatePresence>
             {errors.name && (
-              <motion.p
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="mt-2 text-xs text-red-500"
-              >
+              <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-2 text-xs text-red-500">
                 {errors.name}
               </motion.p>
             )}
@@ -95,32 +102,29 @@ export function ContactForm() {
         </div>
 
         <div>
-          <Input
-            label="Email Address"
-            type="email"
-            value={values.email}
-            onChange={(e) => update('email', e.target.value)}
-          />
+          <Input label="Email Address" type="email" value={values.email} onChange={(e) => update('email', e.target.value)} />
           <AnimatePresence>
             {errors.email && (
-              <motion.p
-                initial={{ opacity: 0, y: -4 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="mt-2 text-xs text-red-500"
-              >
+              <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-2 text-xs text-red-500">
                 {errors.email}
               </motion.p>
             )}
           </AnimatePresence>
         </div>
-      </div>
 
-      <Input
-        label="Approximate Budget"
-        value={values.budget}
-        onChange={(e) => update('budget', e.target.value)}
-      />
+        <div>
+          <Input label="Phone Number (Optional)" type="tel" value={values.phone} onChange={(e) => update('phone', e.target.value)} />
+          <AnimatePresence>
+            {errors.phone && (
+              <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-2 text-xs text-red-500">
+                {errors.phone}
+              </motion.p>
+            )}
+          </AnimatePresence>
+        </div>
+
+        <Input label="Subject" value={values.subject} onChange={(e) => update('subject', e.target.value)} />
+      </div>
 
       <div>
         <Input
@@ -131,20 +135,23 @@ export function ContactForm() {
         />
         <AnimatePresence>
           {errors.message && (
-            <motion.p
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              className="mt-2 text-xs text-red-500"
-            >
+            <motion.p initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-2 text-xs text-red-500">
               {errors.message}
             </motion.p>
           )}
         </AnimatePresence>
       </div>
 
-      <Button type="submit" variant="primary" withArrow>
-        Send Enquiry
+      <FileUpload
+        file={attachment}
+        onChange={setAttachment}
+        progress={isSubmitting ? uploadProgress : 0}
+        disabled={isSubmitting}
+        label="Attachment (Optional)"
+      />
+
+      <Button type="submit" variant="primary" withArrow disabled={isSubmitting}>
+        {isSubmitting ? 'Sending…' : 'Send Enquiry'}
       </Button>
     </form>
   )

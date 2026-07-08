@@ -3,6 +3,36 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    /* Light theme (default) — space-separated RGB so Tailwind's opacity
+       modifiers (e.g. bg-cream-50/40) keep working. See tailwind.config.js. */
+    --color-ink-900: 20 19 15;
+    --color-ink-800: 33 31 25;
+    --color-ink-700: 51 47 39;
+
+    --color-cream-50: 253 252 250;
+    --color-cream-100: 247 244 238;
+    --color-cream-200: 239 233 221;
+    --color-cream-300: 226 217 198;
+  }
+
+  /* Admin dark theme. Scoped to a wrapper around the admin content area
+     (not the whole app, and not the always-dark sidebar) — see
+     DashboardLayout.tsx. Foreground (ink) and surface (cream) shades are
+     swapped as parallel dark/light palettes preserving the same relative
+     hierarchy (ink-900 = strongest text, cream-50 = most-elevated surface),
+     rather than a naive per-value color inversion. */
+  .admin-dark {
+    --color-ink-900: 245 242 234;
+    --color-ink-800: 223 219 208;
+    --color-ink-700: 181 176 162;
+
+    --color-cream-50: 30 28 24;
+    --color-cream-100: 20 19 16;
+    --color-cream-200: 42 40 32;
+    --color-cream-300: 61 57 46;
+  }
+
   * {
     @apply border-ink-800/10;
   }

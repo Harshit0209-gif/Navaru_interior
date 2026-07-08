@@ -1,3 +1,13 @@
+// Resolves to a CSS custom property at runtime instead of a fixed hex value,
+// so these shades can be swapped for the admin dark theme (see index.css's
+// `.admin-dark` scope) without touching every className in the app. Tailwind
+// opacity modifiers (e.g. `text-ink-900/60`) still work because the variable
+// stores space-separated RGB channels rather than a hex string.
+function withOpacity(variable) {
+  return ({ opacityValue }) =>
+    opacityValue === undefined ? `rgb(var(${variable}))` : `rgb(var(${variable}) / ${opacityValue})`
+}
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
@@ -5,18 +15,23 @@ export default {
     extend: {
       colors: {
         ink: {
-          DEFAULT: '#14130f',
+          // 950 is deliberately a static hex, not a variable: it's used
+          // throughout the app as a "guaranteed dark" color (modal
+          // backdrops, the always-dark admin sidebar, hover-contrast text
+          // on the brass accent) rather than adaptive foreground text, so
+          // it must not flip in dark mode.
           950: '#0b0a08',
-          900: '#14130f',
-          800: '#211f19',
-          700: '#332f27',
+          DEFAULT: withOpacity('--color-ink-900'),
+          900: withOpacity('--color-ink-900'),
+          800: withOpacity('--color-ink-800'),
+          700: withOpacity('--color-ink-700'),
         },
         cream: {
-          DEFAULT: '#f7f4ee',
-          50: '#fdfcfa',
-          100: '#f7f4ee',
-          200: '#efe9dd',
-          300: '#e2d9c6',
+          DEFAULT: withOpacity('--color-cream-100'),
+          50: withOpacity('--color-cream-50'),
+          100: withOpacity('--color-cream-100'),
+          200: withOpacity('--color-cream-200'),
+          300: withOpacity('--color-cream-300'),
         },
         brass: {
           DEFAULT: '#c9a469',

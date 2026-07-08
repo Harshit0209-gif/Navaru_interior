@@ -4,9 +4,14 @@ import { ArrowDown } from 'lucide-react'
 import { AnimatedHeading } from '../AnimatedHeading'
 import { Button } from '../Button'
 import { FloatingElements } from '../FloatingElements'
+import { useBookingModal } from '../../context/BookingModalContext'
+import { unsplashSrcSet, unsplashUrl } from '../../utils/unsplash'
+
+const HERO_PHOTO_ID = '1618221195710-dd6b41faaea6'
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
+  const { open: openBooking } = useBookingModal()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.25])
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
@@ -16,9 +21,12 @@ export function Hero() {
     <section ref={ref} className="relative flex h-screen min-h-[720px] items-end overflow-hidden bg-ink-950">
       <motion.div style={{ scale: imageScale, y: imageY }} className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1920&h=1200&q=80"
+          src={unsplashUrl(HERO_PHOTO_ID, 1920, 1200)}
+          srcSet={unsplashSrcSet(HERO_PHOTO_ID, 1920, 1200)}
+          sizes="100vw"
           alt="Bespoke living room designed by Navaru Interior Solution"
           className="h-full w-full object-cover"
+          loading="eager"
         />
       </motion.div>
       <motion.div
@@ -62,7 +70,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 1.3, ease: [0.16, 1, 0.3, 1] }}
           className="mt-12 flex flex-wrap items-center gap-6"
         >
-          <Button variant="primary" withArrow href="#contact">
+          <Button variant="primary" withArrow onClick={() => openBooking()}>
             Book a Consultation
           </Button>
           <Button variant="ghost" href="#portfolio">

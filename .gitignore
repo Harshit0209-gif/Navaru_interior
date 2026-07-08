@@ -1,1 +1,9 @@
 node_modules
+dist
+.env
+.env.local
+*.local
+DB pass
+.env.example
+supabase/.env
+*.tsbuildinfo

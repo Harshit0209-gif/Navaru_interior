@@ -14,7 +14,10 @@ export function Input({ label, as = 'input', id, value, onFocus, onBlur, rows, .
   const generatedId = useId()
   const inputId = id ?? generatedId
   const [focused, setFocused] = useState(false)
-  const hasValue = Boolean(value)
+  // Native date/time inputs always render placeholder segments (dd-mm-yyyy),
+  // so the label must stay floated up even when "empty" or it overlaps them.
+  const alwaysFloats = rest.type === 'date' || rest.type === 'time' || rest.type === 'datetime-local'
+  const hasValue = Boolean(value) || alwaysFloats
   const floating = focused || hasValue
 
   const fieldClasses =
