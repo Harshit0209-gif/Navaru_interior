@@ -58,19 +58,19 @@ const TESTIMONIALS = [
     quote:
       'Navaru understood the feeling we wanted before we could put it into words. Every room now feels considered, never staged.',
     name: 'Ritika Malhotra',
-    role: 'Homeowner, The Ardent Residence',
+    role: 'Homeowner, The Udupi Project',
   },
   {
     quote:
       'They treated our restaurant like a piece of architecture, not decoration. Covers went up 30% the quarter after we reopened.',
     name: 'Daniel Osei',
-    role: 'Founder, Marlowe Rooftop Lounge',
+    role: 'Founder, Katapady Project',
   },
   {
     quote:
       'Meticulous, patient, and completely unwilling to compromise on craft. That is rare, and it shows in the finished space.',
     name: 'Ananya Rao',
-    role: 'Director, Thornbury Offices',
+    role: 'Director, Malpe Project',
   },
 ]
 
