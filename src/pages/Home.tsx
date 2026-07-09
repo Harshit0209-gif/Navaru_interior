@@ -46,12 +46,6 @@ const SERVICES = [
   },
 ]
 
-// First and fourth cards span two rows, creating the mosaic layout below —
-// preserved regardless of which projects are marked featured in the DB.
-function spanForIndex(i: number) {
-  return i === 0 || i === 3 ? 'sm:row-span-2' : ''
-}
-
 const STATS = [
   { value: 14, suffix: '+', label: 'Years of Practice' },
   { value: 220, suffix: '+', label: 'Projects Delivered' },
@@ -171,10 +165,10 @@ export default function Home() {
           </Button>
         </div>
 
-        <div className="grid auto-rows-[280px] gap-4 sm:grid-cols-3">
+        <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
           {projectsLoading
             ? Array.from({ length: 6 }).map((_, i) => (
-                <Skeleton key={i} className={spanForIndex(i)} />
+                <Skeleton key={i} className="mb-4 h-72 w-full break-inside-avoid" />
               ))
             : featuredProjects.map((project, i) => (
                 <ProjectCard
@@ -185,7 +179,7 @@ export default function Home() {
                   title={project.title}
                   category={project.category?.name ?? ''}
                   image={project.cover_image_url}
-                  className={spanForIndex(i)}
+                  className="mb-4 break-inside-avoid"
                 />
               ))}
         </div>

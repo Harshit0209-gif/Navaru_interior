@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS: SiteSettings = {
   favicon_url: null,
   contact_phones: ['+91 99726 76594'],
   whatsapp_number: null,
-  email: 'navaruinteriorsolutions@gmail.com',
+  email: 'info@navaru.in',
   address: '4 - 176C, Amba Road, Kidiyoor, Udupi Taluk & Dist, Karnataka 576103',
   google_maps_embed_url: null,
   social_instagram: null,

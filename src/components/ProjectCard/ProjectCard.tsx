@@ -19,6 +19,7 @@ type ProjectCardProps = {
 
 export function ProjectCard({ index, id, slug, image, title, category, className }: ProjectCardProps) {
   const { open: openBooking } = useBookingModal()
+  const src = getResizedImageUrl(image, { width: 900, quality: 75 })
 
   return (
     <MotionLink
@@ -29,18 +30,20 @@ export function ProjectCard({ index, id, slug, image, title, category, className
       transition={{ duration: 0.8, delay: (index % 3) * 0.1, ease: [0.16, 1, 0.3, 1] }}
       className={cn('group relative block overflow-hidden bg-ink-900', className)}
     >
-      <div className="aspect-[4/5] w-full overflow-hidden">
-        <motion.img
-          src={getResizedImageUrl(image, { width: 900, height: 1125, quality: 75 })}
-          alt={title}
-          loading="lazy"
-          decoding="async"
-          className="h-full w-full object-cover"
-          initial={{ scale: 1.08 }}
-          whileHover={{ scale: 1.16 }}
-          transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
-        />
-      </div>
+      {/* No fixed aspect-ratio box: the card takes the exact shape of
+          whatever image is uploaded (portrait, landscape, square, etc.)
+          instead of forcing every cover image into the same box and
+          cropping or padding it to fit. */}
+      <motion.img
+        src={src}
+        alt={title}
+        loading="lazy"
+        decoding="async"
+        className="block h-auto w-full"
+        initial={{ scale: 1 }}
+        whileHover={{ scale: 1.06 }}
+        transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+      />
 
       <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/10 to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-90" />
 

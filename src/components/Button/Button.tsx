@@ -33,8 +33,13 @@ const variantStyles: Record<Variant, string> = {
   primary:
     'bg-ink-900 text-cream-100 hover:bg-brass-400 hover:text-ink-950',
   outline:
-    'border border-ink-900/25 text-ink-900 hover:border-ink-900 hover:bg-ink-900 hover:text-cream-100',
-  ghost: 'text-ink-900 hover:text-brass-400',
+    'border border-ink-900/25 bg-ink-900/5 text-ink-900 hover:border-ink-900 hover:bg-ink-900 hover:text-cream-100',
+  // Self-contained scrim + border so this reads as a button and stays legible
+  // regardless of what photo/background it sits on (previously plain text
+  // with no box, so it could disappear entirely against a busy or dark image
+  // on some devices — e.g. the Hero's "View Portfolio" CTA).
+  ghost:
+    'border border-cream-100/30 bg-ink-950/30 text-cream-100 backdrop-blur-sm hover:border-brass-300/50 hover:bg-ink-950/50 hover:text-brass-200',
 }
 
 export const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(

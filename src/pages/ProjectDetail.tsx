@@ -89,7 +89,7 @@ export default function ProjectDetail() {
 
   return (
     <>
-      <section className="relative flex h-[60vh] min-h-[420px] items-end overflow-hidden bg-ink-950">
+      <section className="relative flex min-h-[max(60vh,420px)] items-end overflow-hidden bg-ink-950">
         <img
           src={getResizedImageUrl(project.cover_image_url, { width: 1920, quality: 80 })}
           alt={project.title}

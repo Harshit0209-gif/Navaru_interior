@@ -90,7 +90,7 @@ export default function AdminMediaLibrary() {
               <select
                 value={uploadBucket}
                 onChange={(e) => setUploadBucket(e.target.value as MediaBucket)}
-                className="border-b border-ink-900/20 bg-transparent py-2 pr-6 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none focus:border-brass-400"
+                className="border-b border-ink-900/20 bg-ink-900/5 py-2 pr-6 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none focus:border-brass-400"
                 aria-label="Upload destination bucket"
               >
                 <option value="portfolio-images">Portfolio Images</option>

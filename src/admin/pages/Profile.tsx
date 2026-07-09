@@ -252,7 +252,7 @@ export default function AdminProfile() {
             <select
               value={theme}
               onChange={(e) => setTheme(e.target.value as 'light' | 'dark')}
-              className="border-b border-ink-900/20 bg-transparent py-2 text-sm font-light text-ink-900 outline-none focus:border-brass-400"
+              className="border-b border-ink-900/20 bg-ink-900/5 py-2 text-sm font-light text-ink-900 outline-none focus:border-brass-400"
             >
               <option value="light">Light</option>
               <option value="dark">Dark</option>

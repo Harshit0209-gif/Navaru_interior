@@ -18,7 +18,7 @@ import type { PortfolioProject } from '../../types/portfolio'
 import type { PublishStatus } from '../../types/database'
 
 const selectClasses =
-  'peer w-full border-b border-ink-900/20 bg-transparent pb-3 pt-6 text-base font-light text-ink-900 outline-none transition-colors duration-300 focus:border-brass-400'
+  'peer w-full border-b border-ink-900/20 bg-ink-900/5 pb-3 pt-6 text-base font-light text-ink-900 outline-none transition-colors duration-300 focus:border-brass-400'
 
 const STATUS_SELECT_OPTIONS: { value: PublishStatus; label: string }[] = [
   { value: 'draft', label: 'Draft' },

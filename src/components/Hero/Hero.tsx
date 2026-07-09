@@ -18,7 +18,10 @@ export function Hero() {
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [0.45, 0.8])
 
   return (
-    <section ref={ref} className="relative flex h-dvh min-h-[560px] items-end overflow-hidden bg-ink-950">
+    <section
+      ref={ref}
+      className="relative flex min-h-[max(100dvh,560px)] items-end overflow-hidden bg-ink-950"
+    >
       <motion.div style={{ scale: imageScale, y: imageY }} className="absolute inset-0">
         <img
           src={unsplashUrl(HERO_PHOTO_ID, 1920, 1200)}

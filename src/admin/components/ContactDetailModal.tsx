@@ -166,7 +166,7 @@ export function ContactDetailModal({ enquiry, onClose, onUpdated, onDeleted }: C
               value={displayEnquiry.status}
               onChange={(e) => handleStatusChange(e.target.value as EnquiryStatus)}
               disabled={isSavingStatus}
-              className="border-b border-ink-900/20 bg-transparent py-2 text-sm font-light text-ink-900 outline-none focus:border-brass-400"
+              className="border-b border-ink-900/20 bg-ink-900/5 py-2 text-sm font-light text-ink-900 outline-none focus:border-brass-400"
             >
               {CONTACT_STATUS_OPTIONS.map((option) => (
                 <option key={option} value={option}>

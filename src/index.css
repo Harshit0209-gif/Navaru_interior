@@ -38,7 +38,7 @@
   }
 
   html {
-    @apply scroll-smooth;
+    @apply scroll-smooth overflow-x-hidden;
     /* Android Chrome's automatic text autosizer ("font boosting") inflates
        font sizes of text blocks it judges too small for the viewport, using
        a heuristic based on each element's container width — so the same
@@ -50,7 +50,14 @@
   }
 
   body {
-    @apply bg-cream-100 text-ink-900 font-sans font-normal antialiased;
+    /* Belt-and-suspenders alongside html's overflow-x-hidden: any stray
+       element (an animation glitch, a decorative bleed shape, a sub-pixel
+       rounding difference between browsers) that's ever even 1px wider than
+       the viewport makes the whole page horizontally swipeable, and mobile
+       Safari's rubber-band overscroll then reveals blank space beyond the
+       edge. Hidden overflow-x on both html and body means there's never
+       anything to swipe into. */
+    @apply bg-cream-100 text-ink-900 font-sans font-normal antialiased overflow-x-hidden;
   }
 
   ::selection {

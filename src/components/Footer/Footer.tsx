@@ -46,7 +46,7 @@ export function Footer() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="shrink-0 border-b border-brass-300 pb-1 text-sm font-medium uppercase tracking-widest2 text-brass-300 transition-colors hover:text-brass-200"
+              className="max-w-full break-words border-b border-brass-300 pb-1 text-sm font-medium uppercase tracking-widest2 text-brass-300 transition-colors hover:text-brass-200 lg:shrink-0"
             >
               {settings.email}
             </motion.a>

@@ -13,7 +13,7 @@ import { PROPERTY_TYPES, DESIGN_TYPES, EMPTY_BOOKING_FORM } from '../../types/bo
 import type { BookingFormErrors, BookingFormValues } from '../../types/booking'
 
 const selectClasses =
-  'peer w-full border-b border-ink-900/20 bg-transparent pb-3 pt-6 text-base font-light text-ink-900 outline-none transition-colors duration-300 focus:border-brass-400'
+  'peer w-full border-b border-ink-900/20 bg-ink-900/5 pb-3 pt-6 text-base font-light text-ink-900 outline-none transition-colors duration-300 focus:border-brass-400'
 
 function validate(values: BookingFormValues): BookingFormErrors {
   const errors: BookingFormErrors = {}

@@ -2,10 +2,10 @@ import { BOOKING_STATUS_OPTIONS, BOOKING_STATUS_LABELS } from '../types/booking'
 import type { BookingStatusFilter, ProjectOption } from '../types/booking'
 
 const selectClasses =
-  'border-b border-ink-900/20 bg-transparent py-2 pr-6 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none transition-colors focus:border-brass-400'
+  'border-b border-ink-900/20 bg-ink-900/5 py-2 pr-6 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none transition-colors focus:border-brass-400'
 
 const dateInputClasses =
-  'border-b border-ink-900/20 bg-transparent py-2 text-xs font-medium text-ink-700 outline-none transition-colors focus:border-brass-400'
+  'border-b border-ink-900/20 bg-ink-900/5 py-2 text-xs font-medium text-ink-700 outline-none transition-colors focus:border-brass-400'
 
 type BookingFiltersProps = {
   status: BookingStatusFilter

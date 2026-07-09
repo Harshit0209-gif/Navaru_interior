@@ -40,7 +40,7 @@ export function ContactBulkActionsBar({
           onChange={(e) => setStatus(e.target.value as EnquiryStatus)}
           disabled={isBusy}
           aria-label="Bulk status to apply"
-          className="border-b border-ink-900/20 bg-transparent py-1.5 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none focus:border-brass-400"
+          className="border-b border-ink-900/20 bg-ink-900/5 py-1.5 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none focus:border-brass-400"
         >
           {CONTACT_STATUS_OPTIONS.map((option) => (
             <option key={option} value={option}>

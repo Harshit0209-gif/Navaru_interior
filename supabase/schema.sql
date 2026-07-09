@@ -481,7 +481,7 @@ insert into site_settings (
 )
 select
   'Navaru Interior Solution',
-  'navaruinteriorsolutions@gmail.com',
+  'info@navaru.in',
   '4 - 176C, Amba Road, Kidiyoor, Udupi Taluk & Dist, Karnataka 576103',
   array['+91 99726 76594'],
   'Bespoke interior design studio crafting refined residential and commercial spaces.',

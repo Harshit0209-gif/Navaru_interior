@@ -2,6 +2,7 @@ interface ResizeOptions {
   width?: number
   height?: number
   quality?: number
+  resize?: 'cover' | 'contain'
 }
 
 const OBJECT_PATH = '/storage/v1/object/public/'
@@ -15,7 +16,10 @@ const RENDER_PATH = '/storage/v1/render/image/public/'
 // image would. URLs from other sources (e.g. Unsplash placeholders, which
 // already request an appropriately-sized image via their own CDN params in
 // src/utils/unsplash.ts) are returned unchanged.
-export function getResizedImageUrl(url: string, { width, height, quality = 75 }: ResizeOptions): string {
+export function getResizedImageUrl(
+  url: string,
+  { width, height, quality = 75, resize = 'cover' }: ResizeOptions,
+): string {
   if (!url || !url.includes(OBJECT_PATH)) return url
 
   const [base, existingQuery] = url.split('?')
@@ -24,7 +28,7 @@ export function getResizedImageUrl(url: string, { width, height, quality = 75 }:
   if (width) params.set('width', String(width))
   if (height) params.set('height', String(height))
   params.set('quality', String(quality))
-  params.set('resize', 'cover')
+  params.set('resize', resize)
 
   return `${renderBase}?${params.toString()}`
 }

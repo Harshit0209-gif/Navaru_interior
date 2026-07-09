@@ -99,7 +99,7 @@ export default function Portfolio() {
               value={sort}
               onChange={(e) => updateFilter(() => setSort(e.target.value as SortOption))}
               aria-label="Sort projects"
-              className="border-b border-ink-900/20 bg-transparent py-1.5 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none transition-colors focus:border-brass-400"
+              className="border-b border-ink-900/20 bg-ink-900/5 py-1.5 text-xs font-medium uppercase tracking-widest2 text-ink-700 outline-none transition-colors focus:border-brass-400"
             >
               {SORT_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -113,9 +113,9 @@ export default function Portfolio() {
         {error && <p className="py-16 text-center text-sm font-light text-red-500">{error}</p>}
 
         {!error && loading && page === 1 && (
-          <div className="grid auto-rows-[320px] gap-4 sm:grid-cols-3" aria-busy="true" aria-label="Loading projects">
+          <div className="columns-1 gap-4 sm:columns-2 lg:columns-3" aria-busy="true" aria-label="Loading projects">
             {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} className="h-full w-full" />
+              <Skeleton key={i} className="mb-4 h-80 w-full break-inside-avoid" />
             ))}
           </div>
         )}
@@ -128,7 +128,7 @@ export default function Portfolio() {
 
         {!error && projects.length > 0 && (
           <>
-            <div className="grid auto-rows-[320px] gap-4 sm:grid-cols-3">
+            <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
               {projects.map((project, i) => (
                 <ProjectCard
                   key={project.id}
@@ -138,6 +138,7 @@ export default function Portfolio() {
                   title={project.title}
                   category={project.category?.name ?? ''}
                   image={project.cover_image_url}
+                  className="mb-4 break-inside-avoid"
                 />
               ))}
             </div>
