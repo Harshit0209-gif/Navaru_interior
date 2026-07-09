@@ -64,13 +64,13 @@ const TESTIMONIALS = [
     quote:
       'They treated our restaurant like a piece of architecture, not decoration. Covers went up 30% the quarter after we reopened.',
     name: 'Daniel Osei',
-    role: 'Founder, Katapady Project',
+    role: 'Homeowner, Katapady Project',
   },
   {
     quote:
       'Meticulous, patient, and completely unwilling to compromise on craft. That is rare, and it shows in the finished space.',
     name: 'Ananya Rao',
-    role: 'Director, Malpe Project',
+    role: 'Homeowner, Malpe Project',
   },
 ]
 
