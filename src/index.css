@@ -39,6 +39,14 @@
 
   html {
     @apply scroll-smooth;
+    /* Android Chrome's automatic text autosizer ("font boosting") inflates
+       font sizes of text blocks it judges too small for the viewport, using
+       a heuristic based on each element's container width — so the same
+       layout can render with different (and overlapping) text sizes across
+       Android devices/screen densities. Disabling it makes every device
+       render the declared Tailwind font sizes exactly, with no guesswork. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
