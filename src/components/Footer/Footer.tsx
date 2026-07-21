@@ -132,6 +132,8 @@ export function Footer() {
           <p>&copy; {new Date().getFullYear()} {settings.company_name}. All rights reserved.</p>
           <p>{settings.footer_bottom_tagline || 'Crafted with quiet obsession.'}</p>
         </div>
+
+        <p className="mt-4 text-center text-[11px] font-light text-cream-200/30">Powered by GOBT</p>
       </div>
     </footer>
   )
