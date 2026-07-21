@@ -4,6 +4,6 @@ dist
 .env.local
 *.local
 DB pass
-.env.example
 supabase/.env
 *.tsbuildinfo
+.claude
