@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Check, FileText, Link2 } from 'lucide-react'
+import { Check, FileText, Link2, Video } from 'lucide-react'
 import type { MediaAsset } from '../types/media'
 import { formatFileSize } from '../../utils/imageDimensions'
 import { getResizedImageUrl } from '../../utils/imageTransform'
@@ -16,6 +16,7 @@ type MediaCardProps = {
 export function MediaCard({ asset, onOpen, selectable, selected, onToggleSelect }: MediaCardProps) {
   const [copied, setCopied] = useState(false)
   const isPdf = asset.mime_type === 'application/pdf'
+  const isVideo = asset.mime_type.startsWith('video/')
 
   async function handleCopy(e: React.MouseEvent) {
     e.stopPropagation()
@@ -54,6 +55,10 @@ export function MediaCard({ asset, onOpen, selectable, selected, onToggleSelect 
         {isPdf ? (
           <div className="flex h-full w-full items-center justify-center">
             <FileText className="h-8 w-8 text-ink-700/40" strokeWidth={1.25} />
+          </div>
+        ) : isVideo ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <Video className="h-8 w-8 text-ink-700/40" strokeWidth={1.25} />
           </div>
         ) : (
           <img

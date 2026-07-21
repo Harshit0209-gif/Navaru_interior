@@ -11,9 +11,21 @@ type UploadZoneProps = {
   folder: string
   onUploaded?: (asset: MediaAsset) => void
   multiple?: boolean
+  accept?: string
+  hint?: string
 }
 
-export function UploadZone({ bucket, folder, onUploaded, multiple = true }: UploadZoneProps) {
+const DEFAULT_ACCEPT = 'image/png,image/jpeg,image/webp,image/svg+xml,application/pdf'
+const DEFAULT_HINT = 'PNG, JPG, WEBP, SVG, or PDF — up to 15MB each'
+
+export function UploadZone({
+  bucket,
+  folder,
+  onUploaded,
+  multiple = true,
+  accept = DEFAULT_ACCEPT,
+  hint = DEFAULT_HINT,
+}: UploadZoneProps) {
   const { tasks, addFiles, removeTask, clearCompleted } = useMediaUpload({ onUploaded })
   const [isDragging, setIsDragging] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -53,13 +65,13 @@ export function UploadZone({ bucket, folder, onUploaded, multiple = true }: Uplo
         <p className="text-sm font-light text-ink-700">
           Drag &amp; drop {multiple ? 'files' : 'a file'} here, or <span className="text-brass-400 underline">browse</span>
         </p>
-        <p className="text-xs font-light text-ink-700/50">PNG, JPG, WEBP, SVG, or PDF — up to 15MB each</p>
+        <p className="text-xs font-light text-ink-700/50">{hint}</p>
       </div>
 
       <input
         ref={inputRef}
         type="file"
-        accept="image/png,image/jpeg,image/webp,image/svg+xml,application/pdf"
+        accept={accept}
         multiple={multiple}
         className="sr-only"
         onChange={(e) => {

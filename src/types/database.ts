@@ -6,6 +6,34 @@ export type BookingStatus = 'new' | 'pending' | 'contacted' | 'completed' | 'rej
 export type EnquiryStatus = 'unread' | 'read' | 'replied' | 'archived'
 export type MediaBucket = 'portfolio-images' | 'website-assets'
 
+// Item shapes for the jsonb array columns on `site_content`.
+export interface StatItem {
+  value: number
+  suffix: string
+  label: string
+}
+export interface ServiceItem {
+  icon: string
+  title: string
+  description: string
+  bullets: string[]
+  image_url: string | null
+}
+export interface TestimonialItem {
+  quote: string
+  name: string
+  role: string
+}
+export interface ValueItem {
+  icon: string
+  title: string
+  description: string
+}
+export interface ProcessStepItem {
+  title: string
+  description: string
+}
+
 export interface Database {
   public: {
     Tables: {
@@ -291,6 +319,116 @@ export interface Database {
           updated_at?: string
         }
         Update: Partial<Database['public']['Tables']['site_settings']['Insert']>
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          id: string
+          hero_kicker: string | null
+          hero_headline: string | null
+          hero_subtext: string | null
+          hero_cta_primary_label: string | null
+          hero_cta_secondary_label: string | null
+          hero_image_url: string | null
+          hero_video_url: string | null
+          about_eyebrow: string | null
+          about_title: string | null
+          about_body: string | null
+          mission_title: string | null
+          mission_body: string | null
+          vision_title: string | null
+          vision_body: string | null
+          philosophy_eyebrow: string | null
+          philosophy_title: string | null
+          philosophy_body: string | null
+          services_summary_eyebrow: string | null
+          services_summary_title: string | null
+          services_summary_body: string | null
+          portfolio_eyebrow: string | null
+          portfolio_title: string | null
+          portfolio_button_label: string | null
+          about_page_eyebrow: string | null
+          about_page_title: string | null
+          about_page_description: string | null
+          about_story_eyebrow: string | null
+          about_story_title: string | null
+          about_story_body: string | null
+          about_story_image_url: string | null
+          values_eyebrow: string | null
+          values_title: string | null
+          process_eyebrow: string | null
+          process_title: string | null
+          process_body: string | null
+          services_page_eyebrow: string | null
+          services_page_title: string | null
+          services_page_description: string | null
+          services_cta_eyebrow: string | null
+          services_cta_heading: string | null
+          services_cta_button_label: string | null
+          contact_page_eyebrow: string | null
+          contact_page_title: string | null
+          contact_page_description: string | null
+          stats: StatItem[]
+          services: ServiceItem[]
+          testimonials: TestimonialItem[]
+          values: ValueItem[]
+          process_steps: ProcessStepItem[]
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          hero_kicker?: string | null
+          hero_headline?: string | null
+          hero_subtext?: string | null
+          hero_cta_primary_label?: string | null
+          hero_cta_secondary_label?: string | null
+          hero_image_url?: string | null
+          hero_video_url?: string | null
+          about_eyebrow?: string | null
+          about_title?: string | null
+          about_body?: string | null
+          mission_title?: string | null
+          mission_body?: string | null
+          vision_title?: string | null
+          vision_body?: string | null
+          philosophy_eyebrow?: string | null
+          philosophy_title?: string | null
+          philosophy_body?: string | null
+          services_summary_eyebrow?: string | null
+          services_summary_title?: string | null
+          services_summary_body?: string | null
+          portfolio_eyebrow?: string | null
+          portfolio_title?: string | null
+          portfolio_button_label?: string | null
+          about_page_eyebrow?: string | null
+          about_page_title?: string | null
+          about_page_description?: string | null
+          about_story_eyebrow?: string | null
+          about_story_title?: string | null
+          about_story_body?: string | null
+          about_story_image_url?: string | null
+          values_eyebrow?: string | null
+          values_title?: string | null
+          process_eyebrow?: string | null
+          process_title?: string | null
+          process_body?: string | null
+          services_page_eyebrow?: string | null
+          services_page_title?: string | null
+          services_page_description?: string | null
+          services_cta_eyebrow?: string | null
+          services_cta_heading?: string | null
+          services_cta_button_label?: string | null
+          contact_page_eyebrow?: string | null
+          contact_page_title?: string | null
+          contact_page_description?: string | null
+          stats?: StatItem[]
+          services?: ServiceItem[]
+          testimonials?: TestimonialItem[]
+          values?: ValueItem[]
+          process_steps?: ProcessStepItem[]
+          updated_at?: string
+        }
+        Update: Partial<Database['public']['Tables']['site_content']['Insert']>
         Relationships: []
       }
       activity_logs: {

@@ -4,6 +4,7 @@ import {
   History,
   Images,
   LayoutDashboard,
+  LayoutTemplate,
   LogOut,
   Mail,
   Settings,
@@ -21,6 +22,7 @@ const NAV_ITEMS = [
   { label: 'Bookings', to: '/admin/bookings', icon: CalendarCheck },
   { label: 'Contact', to: '/admin/contact', icon: Mail },
   { label: 'Media Library', to: '/admin/media', icon: Images },
+  { label: 'Website Content', to: '/admin/content', icon: LayoutTemplate },
   { label: 'Activity Log', to: '/admin/activity', icon: History },
   { label: 'Settings', to: '/admin/settings', icon: Settings },
 ]

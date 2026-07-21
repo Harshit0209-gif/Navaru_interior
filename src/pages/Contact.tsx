@@ -3,9 +3,11 @@ import { PageHeader } from '../components/PageHeader'
 import { ContactForm } from '../components/ContactForm'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useSiteSettings } from '../context/SiteSettingsContext'
+import { useSiteContent } from '../context/SiteContentContext'
 
 export default function Contact() {
   const settings = useSiteSettings()
+  const content = useSiteContent()
 
   usePageMeta(
     'Contact',
@@ -25,9 +27,9 @@ export default function Contact() {
   return (
     <>
       <PageHeader
-        eyebrow="Get in Touch"
-        title="Tell us about the space you're imagining."
-        description="Share a few details below and one of our designers will reach out to schedule an initial consultation."
+        eyebrow={content.contact_page_eyebrow ?? ''}
+        title={content.contact_page_title ?? ''}
+        description={content.contact_page_description ?? undefined}
       />
       <section className="mx-auto max-w-content px-6 py-24 lg:px-12">
         <div className="grid gap-16 lg:grid-cols-[1fr_1.4fr] lg:gap-24">

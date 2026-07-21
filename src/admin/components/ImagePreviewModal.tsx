@@ -60,6 +60,7 @@ export function ImagePreviewModal({ asset, onClose, onDeleted, onUpdated }: Imag
 
   if (!displayAsset) return null
   const isPdf = displayAsset.mime_type === 'application/pdf'
+  const isVideo = displayAsset.mime_type.startsWith('video/')
 
   async function handleCopyUrl() {
     await navigator.clipboard.writeText(displayAsset!.public_url)
@@ -147,6 +148,8 @@ export function ImagePreviewModal({ asset, onClose, onDeleted, onUpdated }: Imag
                   Open PDF
                 </a>
               </div>
+            ) : isVideo ? (
+              <video src={displayAsset.public_url} controls className="max-h-[420px] w-full" />
             ) : (
               <img src={displayAsset.public_url} alt={displayAsset.file_name} className="max-h-[420px] w-full object-contain" />
             )}

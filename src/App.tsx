@@ -28,6 +28,7 @@ const AdminPortfolioEdit = lazy(() => import('./admin/pages/PortfolioEdit'))
 const AdminBookings = lazy(() => import('./admin/pages/Bookings'))
 const AdminContact = lazy(() => import('./admin/pages/Contact'))
 const AdminMediaLibrary = lazy(() => import('./admin/pages/MediaLibrary'))
+const AdminSiteContent = lazy(() => import('./admin/pages/SiteContent'))
 const AdminSettings = lazy(() => import('./admin/pages/Settings'))
 const AdminProfile = lazy(() => import('./admin/pages/Profile'))
 const AdminActivityLog = lazy(() => import('./admin/pages/ActivityLog'))
@@ -172,6 +173,7 @@ export default function App() {
                 <Route path="/admin/bookings" element={<AdminBookings />} />
                 <Route path="/admin/contact" element={<AdminContact />} />
                 <Route path="/admin/media" element={<AdminMediaLibrary />} />
+                <Route path="/admin/content" element={<AdminSiteContent />} />
                 <Route path="/admin/settings" element={<AdminSettings />} />
                 <Route path="/admin/profile" element={<AdminProfile />} />
                 <Route path="/admin/activity" element={<AdminActivityLog />} />

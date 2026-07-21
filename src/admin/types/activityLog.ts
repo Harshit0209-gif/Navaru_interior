@@ -26,6 +26,7 @@ export type ActivityAction =
   | 'contact.bulk_status_changed'
   | 'contact.bulk_deleted'
   | 'settings.updated'
+  | 'content.updated'
   | 'profile.updated'
   | 'profile.email_changed'
   | 'profile.password_changed'
@@ -36,6 +37,7 @@ export type ActivityRecordType =
   | 'booking'
   | 'contact_enquiry'
   | 'site_settings'
+  | 'site_content'
   | 'auth'
   | 'profile'
 
@@ -63,6 +65,7 @@ export const ACTIVITY_ACTION_LABELS: Record<ActivityAction, string> = {
   'contact.bulk_status_changed': 'Contacts Bulk Status Changed',
   'contact.bulk_deleted': 'Contacts Bulk Deleted',
   'settings.updated': 'Settings Updated',
+  'content.updated': 'Website Content Updated',
   'profile.updated': 'Profile Updated',
   'profile.email_changed': 'Email Changed',
   'profile.password_changed': 'Password Changed',

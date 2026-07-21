@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
-import type { FormEvent, ReactNode } from 'react'
+import type { FormEvent } from 'react'
 import { Loader2, Save } from 'lucide-react'
 import { PageHeader } from '../components/PageHeader'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { TagInput } from '../components/TagInput'
 import { BrandingImagePicker } from '../components/BrandingImagePicker'
+import { Section } from '../components/Section'
 import { useToast } from '../../context/ToastContext'
 import { getErrorMessage } from '../../utils/errors'
 import { fetchSiteSettings, updateSiteSettings } from '../services/settingsService'
@@ -20,16 +21,6 @@ const SOCIAL_FIELDS: { key: keyof SettingsFormValues; label: string; placeholder
   { key: 'social_youtube', label: 'YouTube', placeholder: 'https://youtube.com/@yourstudio' },
   { key: 'social_twitter', label: 'Twitter / X', placeholder: 'https://x.com/yourstudio' },
 ]
-
-function Section({ title, description, children }: { title: string; description?: string; children: ReactNode }) {
-  return (
-    <section className="border border-ink-900/10 bg-cream-50 p-6 sm:p-8">
-      <h2 className="text-lg font-normal text-ink-900">{title}</h2>
-      {description && <p className="mt-1 text-sm font-light text-ink-700/60">{description}</p>}
-      <div className="mt-6 grid gap-6 sm:grid-cols-2">{children}</div>
-    </section>
-  )
-}
 
 export default function AdminSettings() {
   const { showToast } = useToast()

@@ -6,7 +6,17 @@ import { ErrorBoundary } from './components/ErrorBoundary'
 import { BookingModalProvider } from './context/BookingModalContext'
 import { ToastProvider } from './context/ToastContext'
 import { SiteSettingsProvider } from './context/SiteSettingsContext'
+import { SiteContentProvider } from './context/SiteContentContext'
 import './index.css'
+
+// Chrome/Safari restore the previous scroll position on a hard refresh by
+// default (history.scrollRestoration = 'auto'), which fights the "every
+// reload starts at the top" expectation almost every site actually has.
+// Turning it off here means our own scrollTo(0,0) in App.tsx is what
+// governs scroll position instead of the browser silently overriding it.
+if ('scrollRestoration' in window.history) {
+  window.history.scrollRestoration = 'manual'
+}
 
 // AuthProvider (Supabase session/auth state) is deliberately NOT mounted
 // here — it only wraps the admin route tree, inside App.tsx. Mounting it
@@ -18,11 +28,13 @@ createRoot(document.getElementById('root')!).render(
     <ErrorBoundary>
       <BrowserRouter>
         <SiteSettingsProvider>
-          <ToastProvider>
-            <BookingModalProvider>
-              <App />
-            </BookingModalProvider>
-          </ToastProvider>
+          <SiteContentProvider>
+            <ToastProvider>
+              <BookingModalProvider>
+                <App />
+              </BookingModalProvider>
+            </ToastProvider>
+          </SiteContentProvider>
         </SiteSettingsProvider>
       </BrowserRouter>
     </ErrorBoundary>

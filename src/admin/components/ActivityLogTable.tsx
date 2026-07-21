@@ -20,6 +20,8 @@ function recordLink(log: ActivityLog): string | null {
       return '/admin/contact'
     case 'site_settings':
       return '/admin/settings'
+    case 'site_content':
+      return '/admin/content'
     case 'profile':
     case 'auth':
       return '/admin/profile'
@@ -34,6 +36,7 @@ const RECORD_TYPE_LABELS: Record<string, string> = {
   booking: 'Booking',
   contact_enquiry: 'Contact',
   site_settings: 'Settings',
+  site_content: 'Website Content',
   profile: 'Profile',
   auth: 'Auth',
 }

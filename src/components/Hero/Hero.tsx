@@ -5,13 +5,16 @@ import { AnimatedHeading } from '../AnimatedHeading'
 import { Button } from '../Button'
 import { FloatingElements } from '../FloatingElements'
 import { useBookingModal } from '../../context/BookingModalContext'
+import { useSiteContent } from '../../context/SiteContentContext'
 import { unsplashSrcSet, unsplashUrl } from '../../utils/unsplash'
+import { getResizedImageUrl } from '../../utils/imageTransform'
 
 const HERO_PHOTO_ID = '1618221195710-dd6b41faaea6'
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
   const { open: openBooking } = useBookingModal()
+  const content = useSiteContent()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.25])
   const imageY = useTransform(scrollYProgress, [0, 1], ['0%', '18%'])
@@ -23,14 +26,34 @@ export function Hero() {
       className="relative flex min-h-[max(100dvh,560px)] items-end overflow-hidden bg-ink-950"
     >
       <motion.div style={{ scale: imageScale, y: imageY }} className="absolute inset-0">
-        <img
-          src={unsplashUrl(HERO_PHOTO_ID, 1920, 1200)}
-          srcSet={unsplashSrcSet(HERO_PHOTO_ID, 1920, 1200)}
-          sizes="100vw"
-          alt="Bespoke living room designed by Navaru Interior Solution"
-          className="h-full w-full object-cover"
-          loading="eager"
-        />
+        {content.hero_video_url ? (
+          <video
+            src={content.hero_video_url}
+            poster={content.hero_image_url ? getResizedImageUrl(content.hero_image_url, { width: 1920, quality: 80 }) : undefined}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover"
+          />
+        ) : content.hero_image_url ? (
+          <img
+            src={getResizedImageUrl(content.hero_image_url, { width: 1920, quality: 80 })}
+            sizes="100vw"
+            alt={content.hero_headline ?? 'Bespoke living room designed by Navaru Interior Solution'}
+            className="h-full w-full object-cover"
+            loading="eager"
+          />
+        ) : (
+          <img
+            src={unsplashUrl(HERO_PHOTO_ID, 1920, 1200)}
+            srcSet={unsplashSrcSet(HERO_PHOTO_ID, 1920, 1200)}
+            sizes="100vw"
+            alt="Bespoke living room designed by Navaru Interior Solution"
+            className="h-full w-full object-cover"
+            loading="eager"
+          />
+        )}
       </motion.div>
       <motion.div
         style={{ opacity: overlayOpacity }}
@@ -46,7 +69,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="mb-6 text-xs font-medium uppercase tracking-widest2 text-brass-300"
         >
-          Navaru Interior Solution &mdash; Est. Craftsmanship
+          {content.hero_kicker}
         </motion.p>
 
         <AnimatedHeading
@@ -54,7 +77,7 @@ export function Hero() {
           delay={0.35}
           className="max-w-4xl text-balance text-5xl font-light leading-[1.05] tracking-tightest text-cream-100 sm:text-6xl lg:text-7xl"
         >
-          Interiors shaped by light, texture, and quiet luxury.
+          {content.hero_headline ?? ''}
         </AnimatedHeading>
 
         <motion.p
@@ -63,8 +86,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8 max-w-lg text-base font-light leading-relaxed text-cream-200/80"
         >
-          We design residences and commercial spaces with an obsessive attention
-          to proportion, material, and the way a room should feel &mdash; not just look.
+          {content.hero_subtext}
         </motion.p>
 
         <motion.div
@@ -74,10 +96,10 @@ export function Hero() {
           className="mt-12 flex flex-wrap items-center gap-6"
         >
           <Button variant="primary" withArrow onClick={() => openBooking()}>
-            Book a Consultation
+            {content.hero_cta_primary_label}
           </Button>
           <Button variant="ghost" href="#portfolio">
-            View Portfolio
+            {content.hero_cta_secondary_label}
           </Button>
         </motion.div>
       </div>

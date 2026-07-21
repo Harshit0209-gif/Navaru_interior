@@ -20,6 +20,8 @@ type ImagePickerModalProps = {
   title?: string
   uploadBucket?: MediaBucket
   uploadFolder?: string
+  uploadAccept?: string
+  uploadHint?: string
   onSelect: (urls: string[]) => void
 }
 
@@ -30,6 +32,8 @@ export function ImagePickerModal({
   title,
   uploadBucket = DEFAULT_UPLOAD_BUCKET,
   uploadFolder = DEFAULT_UPLOAD_FOLDER,
+  uploadAccept,
+  uploadHint,
   onSelect,
 }: ImagePickerModalProps) {
   const [search, setSearch] = useState('')
@@ -42,7 +46,16 @@ export function ImagePickerModal({
     () => ({ search: debouncedSearch, bucket: 'all' as const, sort: 'newest' as const, page, pageSize: PAGE_SIZE }),
     [debouncedSearch, page],
   )
-  const { assets, total, loading, reload } = useMediaLibrary(filters)
+  const { assets: allAssets, total, loading, reload } = useMediaLibrary(filters)
+  // When the caller restricts uploads to specific mime types (e.g. video for
+  // the Hero background), also restrict what's selectable when browsing the
+  // existing library, so an admin can't accidentally pick the wrong kind of
+  // asset for that field.
+  const assets = useMemo(() => {
+    if (!uploadAccept) return allAssets
+    const allowed = uploadAccept.split(',')
+    return allAssets.filter((asset) => allowed.includes(asset.mime_type))
+  }, [allAssets, uploadAccept])
 
   useEffect(() => {
     if (!open) {
@@ -99,7 +112,14 @@ export function ImagePickerModal({
         </div>
 
         {showUpload ? (
-          <UploadZone bucket={uploadBucket} folder={uploadFolder} multiple={multiple} onUploaded={handleUploaded} />
+          <UploadZone
+            bucket={uploadBucket}
+            folder={uploadFolder}
+            multiple={multiple}
+            accept={uploadAccept}
+            hint={uploadHint}
+            onUploaded={handleUploaded}
+          />
         ) : (
           <>
             <MediaSearch
@@ -127,7 +147,7 @@ export function ImagePickerModal({
 
         <div className="flex items-center justify-between gap-4 border-t border-ink-900/10 pt-6">
           <p className="text-xs font-light text-ink-700/60">
-            {selected.size} {selected.size === 1 ? 'image' : 'images'} selected
+            {selected.size} {selected.size === 1 ? 'file' : 'files'} selected
           </p>
           <div className="flex gap-3">
             <Button variant="outline" onClick={onClose}>
